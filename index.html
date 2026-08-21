@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pre-Design Consultation — DOMOTIC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Spline+Sans+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#101418;
+    --slate:#3c464f;
+    --mist:#8b96a0;
+    --paper:#f2f0eb;
+    --line:#d8d4cb;
+    --blueprint:#1b4dd8;
+    --amber:#c8801f;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:0 24px 160px}
+
+  /* ---------- masthead ---------- */
+  header{
+    border-bottom:1px solid var(--line);
+    padding:28px 0 20px;
+    margin-bottom:44px;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .mark{
+    font-family:'Archivo',sans-serif;
+    font-weight:700;
+    letter-spacing:.22em;
+    font-size:15px;
+    text-transform:uppercase;
+  }
+  .mark span{color:var(--blueprint)}
+  .doc-ref{
+    font-family:'Spline Sans Mono',monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    color:var(--mist);
+    text-transform:uppercase;
+  }
+
+  /* ---------- intro ---------- */
+  .intro h1{
+    font-family:'Archivo',sans-serif;
+    font-weight:600;
+    font-size:clamp(30px,5.4vw,46px);
+    line-height:1.08;
+    letter-spacing:-.02em;
+    margin:0 0 18px;
+  }
+  .intro p{max-width:56ch;color:var(--slate);margin:0 0 14px}
+  .meta{
+    margin:32px 0 0;
+    border-top:1px solid var(--line);
+    padding-top:18px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    gap:18px;
+    font-family:'Spline Sans Mono',monospace;
+    font-size:12px;
+    color:var(--slate);
+  }
+  .meta b{display:block;color:var(--mist);font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:10px;margin-bottom:5px}
+
+  /* ---------- drafting rule (signature) ---------- */
+  .rule{position:sticky;top:0;z-index:20;background:var(--paper);padding:14px 0 12px;border-bottom:1px solid var(--line)}
+  .rule .ticks{display:flex;gap:3px;align-items:flex-end;height:22px}
+  .tick{flex:1;background:var(--line);height:7px;transition:height .3s ease,background .3s ease}
+  .tick.major{height:12px}
+  .tick.done{background:var(--ink)}
+  .tick.here{background:var(--blueprint);height:22px}
+  .rule .read{
+    display:flex;justify-content:space-between;gap:12px;
+    font-family:'Spline Sans Mono',monospace;font-size:11px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--mist);margin-top:9px;
+  }
+  .rule .read b{color:var(--ink);font-weight:500}
+
+  /* ---------- sections ---------- */
+  section{display:none}
+  section.on{display:block;animation:rise .32s ease both}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .sec-head{margin:40px 0 30px}
+  .sec-no{
+    font-family:'Spline Sans Mono',monospace;font-size:12px;letter-spacing:.16em;
+    color:var(--blueprint);display:block;margin-bottom:8px;
+  }
+  .sec-head h2{
+    font-family:'Archivo',sans-serif;font-weight:600;
+    font-size:clamp(22px,3.6vw,30px);letter-spacing:-.01em;margin:0;
+  }
+
+  .q{border-top:1px solid var(--line);padding:22px 0}
+  .q:last-of-type{border-bottom:1px solid var(--line)}
+  .q label.t{display:block;font-weight:500;margin-bottom:12px;max-width:62ch}
+  .q .req{color:var(--amber);font-family:'Spline Sans Mono',monospace;font-size:11px;margin-left:6px;letter-spacing:.08em}
+  input[type=text],input[type=date],textarea{
+    width:100%;background:var(--white);border:1px solid var(--line);
+    border-radius:2px;padding:12px 13px;font:inherit;color:var(--ink);
+  }
+  textarea{min-height:96px;resize:vertical}
+  input:focus,textarea:focus{outline:2px solid var(--blueprint);outline-offset:1px;border-color:transparent}
+  .opts{display:flex;flex-wrap:wrap;gap:8px}
+  .opt{
+    display:inline-flex;align-items:center;gap:8px;background:var(--white);
+    border:1px solid var(--line);border-radius:2px;padding:9px 13px;cursor:pointer;
+  }
+  .opt input{accent-color:var(--blueprint);margin:0}
+  .opt:has(input:checked){border-color:var(--blueprint);box-shadow:inset 0 0 0 1px var(--blueprint)}
+  .miss{border-color:var(--amber)!important;background:#fdf8f0}
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:fixed;left:0;right:0;bottom:0;background:var(--paper);
+    border-top:1px solid var(--line);padding:14px 24px;z-index:30;
+  }
+  .nav-in{max-width:760px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
+  button{
+    font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;letter-spacing:.02em;
+    padding:12px 26px;border-radius:2px;border:1px solid var(--ink);cursor:pointer;background:var(--ink);color:var(--paper);
+  }
+  button.ghost{background:transparent;color:var(--ink)}
+  button:disabled{opacity:.3;cursor:not-allowed}
+  button:hover:not(:disabled){background:var(--blueprint);border-color:var(--blueprint);color:var(--white)}
+  .saved{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--mist);letter-spacing:.08em}
+
+  .note{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--amber);margin-top:14px;min-height:18px}
+
+  /* ---------- done ---------- */
+  .done{text-align:left;padding:60px 0}
+  .done h2{font-family:'Archivo',sans-serif;font-size:32px;margin:0 0 14px}
+  .done p{color:var(--slate);max-width:52ch}
+  @media (max-width:520px){
+    .wrap{padding:0 18px 170px}
+    button{padding:11px 18px;font-size:13px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <div class="mark">DOMO<span>TIC</span></div>
+    <div class="doc-ref">B1.0 · Pre-Design · Client Consultation</div>
+  </header>
+
+  <!-- intro -->
+  <section id="intro" class="on">
+    <div class="intro">
+      <h1>Before we draw anything, we listen.</h1>
+      <p>This consultation records what your project has to do, what it must not do, and what it has to cost. Everything that follows — the site work, the drawings, the budget — is built on your answers here.</p>
+      <p>Answer what you know. Leave the rest blank; we will fill the gaps together.</p>
+      <div class="meta">
+        <div><b>Sections</b>12</div>
+        <div><b>Questions</b>71</div>
+        <div><b>Time</b>20–30 minutes</div>
+        <div><b>Progress</b>Saved on this device</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- drafting rule -->
+  <div class="rule" id="rule" style="display:none">
+    <div class="ticks" id="ticks"></div>
+    <div class="read"><span id="readL">Section 01</span><span id="readR"><b>0</b> of 71 answered</span></div>
+  </div>
+
+  <div id="form"></div>
+
+  <!-- done -->
+  <section id="done">
+    <div class="done">
+      <h2>Received.</h2>
+      <p>Your consultation is with us. We review it, list what is still missing, and come back to you before design work begins.</p>
+    </div>
+  </section>
+</div>
+
+<div class="nav" id="nav">
+  <div class="nav-in">
+    <button class="ghost" id="back">Back</button>
+    <span class="saved" id="saved"></span>
+    <button id="next">Start</button>
+  </div>
+</div>
+
+<script>
+const POST_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSftKeZ6Rt2KvSwQQwMRgWO4ZUnhBdkGThb0yXe0_1aple6bDw/formResponse';
+
+const SECTIONS = [
+ ['Client & Ownership',[
+  ['entry.433360873','text','Client / Company — who is requesting the project?',1],
+  ['entry.548454302','text','Legal entity that will own or contract the project',0],
+  ['entry.1439425521','text','Decision-maker — who has authority to make project decisions?',1],
+  ['entry.2113625894','text','Contract signatory — who will officially sign agreements?',0],
+  ['entry.576966213','text','Payer — who is responsible for project payments?',0],
+  ['entry.1751267599','text','Approver(s) — who must approve designs, budgets and major decisions?',0],
+  ['entry.1244031526','long','Other stakeholders — partners, family members, investors, tenants?',0],
+  ['entry.2021178611','long','Has the client previously managed a construction or renovation project?',0]
+ ]],
+ ['Project Type & Scope',[
+  ['entry.1493095419','choice','Project type',1,['House','Apartment','Office','Retail','Hotel','Industrial','Mixed-use','Renovation','Other']],
+  ['entry.1671616323','choice','Project scope',1,['New building','Addition','Renovation','Conversion','Change of use','Other']],
+  ['entry.1605206492','choice','Expected building life',0,['Short-term','Long-term','Permanent','Not sure']],
+  ['entry.1965993674','long','Should the project allow for future additions or changes?',0]
+ ]],
+ ['Program — Space Requirements',[
+  ['entry.859378675','long','Required spaces — what rooms, areas or functions are required?',1],
+  ['entry.1475909596','long','Target area per space (approximate size for each space)',0],
+  ['entry.1316643753','long','Occupancy — how many people will normally use each space?',0],
+  ['entry.1681045084','long','Space relationships — which spaces need to be close to each other?',0],
+  ['entry.469026565','long','Privacy requirements — which areas need separation or privacy?',0],
+  ['entry.1793319235','long','Noise separation — which areas should be separated because of noise?',0],
+  ['entry.1572542058','long','Storage — what storage areas are required and what will they store?',0],
+  ['entry.1003907061','text','Parking — how many vehicles, bicycles or other spaces are required?',0],
+  ['entry.725850758','long','Outdoor areas — gardens, terraces, courtyards, balconies, play areas?',0],
+  ['entry.1962720343','text','Total target area — approximate total building area desired',0]
+ ]],
+ ['Budget',[
+  ['entry.1243431355','text','Total project budget — approximate maximum for the complete project',1],
+  ['entry.815993289','text','Construction budget — amount intended specifically for construction',0],
+  ['entry.1601545012','text','Permits, taxes and government fees — budget allowed',0],
+  ['entry.1388538214','long','Are furniture, appliances, equipment or technology included?',0],
+  ['entry.1456590074','long','Is landscaping included in the project budget?',0],
+  ['entry.1015118549','long','Contingency — is a reserve included for unexpected costs?',0],
+  ['entry.1977074440','choice','Financing',0,['Self-funded','Bank financing','Investor','Mixed','Not decided']],
+  ['entry.1172926362','long','Financing constraints — limits, approvals or financial deadlines',0]
+ ]],
+ ['Schedule',[
+  ['entry.1015229863','date','Desired start date',0],
+  ['entry.846945185','date','Desired completion date',0],
+  ['entry.467328242','long','Fixed deadlines — are there dates that cannot change?',0],
+  ['entry.1913112589','long','Reason for the deadline (lease expiry, school year, opening, sale, etc.)',0],
+  ['entry.182611824','long','Will the project be built in stages?',0]
+ ]],
+ ['Site Basics',[
+  ['entry.1125202392','long','Project address / location',1],
+  ['entry.911160902','choice','Land status',0,['Owned','Under offer','Still being selected','Other']],
+  ['entry.871701711','long','Existing structures — are there buildings currently on the property?',0],
+  ['entry.706030921','long','Existing documents — surveys, deeds, drawings, photographs, reports?',0]
+ ]],
+ ['Performance & Quality',[
+  ['entry.793651787','choice','Expected quality level',0,['Economy','Standard','High-end','Premium','Other']],
+  ['entry.1884547498','long','Energy performance — specific energy-efficiency expectations?',0],
+  ['entry.35088413','long','Accessibility — specific accessibility requirements?',0],
+  ['entry.785421652','long','Sustainability — goals or certification requirements?',0],
+  ['entry.1746257368','long','Smart systems / automation — required systems?',0],
+  ['entry.1264507200','long','Acoustic requirements — special sound control or privacy needs?',0]
+ ]],
+ ['Style & Design Preferences',[
+  ['entry.2002194122','long','Architectural style — what character or style do you prefer?',0],
+  ['entry.1444163872','long','Reference projects — buildings, images or projects you like',0],
+  ['entry.711835121','long','Preferred materials',0],
+  ['entry.1479030083','long','Materials to avoid',0],
+  ['entry.1124666422','long','Colours and finishes you prefer',0]
+ ]],
+ ['Operational Requirements',[
+  ['entry.1722264309','long','Daily activities — how will people use the building on a typical day?',0],
+  ['entry.728073342','long','Special equipment, machinery, technology or infrastructure required',0],
+  ['entry.454902905','long','Security measures or systems required',0],
+  ['entry.1421684101','long','Maintenance — what level is acceptable or expected?',0],
+  ['entry.583130356','long','Staff / service access — separate service, delivery or staff routes?',0]
+ ]],
+ ['Constraints & Risks',[
+  ['entry.2097724500','long','Known legal restrictions',0],
+  ['entry.438081185','long','HOA, condominium or community rules affecting the property',0],
+  ['entry.1993436785','long','Neighbour agreements affecting the project',0],
+  ['entry.325517409','long','Existing disputes — property, neighbour or contractual',0],
+  ['entry.1502920653','long','Non-negotiables — requirements that must not be changed',1],
+  ['entry.428097887','long','Client concerns — specific risks or issues you are worried about',0]
+ ]],
+ ['Deliverables & Project Process',[
+  ['entry.1986188473','long','Expected deliverables at each project phase',0],
+  ['entry.71592001','long','Review and approval process — who reviews, who gives final approval?',0],
+  ['entry.1028444699','long','Response time — how quickly can decisions normally be provided?',0],
+  ['entry.1394808809','long','Existing consultants already hired (architects, engineers, surveyors)',0],
+  ['entry.76608333','long','Has a contractor already been selected?',0],
+  ['entry.1864714438','choice','Preferred communication method',0,['Email','Phone','WhatsApp','Video call','In person','Other']]
+ ]],
+ ['Final Client Confirmation',[
+  ['entry.1029399515','long','Client priorities — the most important requirements for the project',1],
+  ['entry.2067191171','choice','Does this information accurately represent your current requirements?',1,['Yes','No','Partly — see comments']],
+  ['entry.1691182548','long','Additional comments',0],
+  ['entry.1537720386','text','Client sign-off — full name confirming this information is approved',1]
+ ]]
+];
+
+const KEY = 'domotic_b1_predesign_v1';
+const TOTAL = SECTIONS.reduce((n,s)=>n+s[1].length,0);
+let page = -1; // -1 intro, 0..11 sections, 12 done
+let data = {};
+
+try{ const raw = localStorage.getItem(KEY); if(raw) data = JSON.parse(raw); }catch(e){}
+
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(data)); document.getElementById('saved').textContent='Saved'; }catch(e){}
+}
+function pad(n){ return String(n).padStart(2,'0'); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+// build sections
+const host = document.getElementById('form');
+SECTIONS.forEach((sec,si)=>{
+  const el = document.createElement('section');
+  el.id = 'sec'+si;
+  let h = '<div class="sec-head"><span class="sec-no">'+pad(si+1)+' / 12</span><h2>'+esc(sec[0])+'</h2></div>';
+  sec[1].forEach(q=>{
+    const id=q[0], kind=q[1], title=q[2], req=q[3], opts=q[4]||[];
+    const val = data[id]||'';
+    h += '<div class="q" data-id="'+id+'"><label class="t" for="f_'+id+'">'+esc(title)+(req?'<span class="req">REQUIRED</span>':'')+'</label>';
+    if(kind==='text'){
+      h += '<input type="text" id="f_'+id+'" value="'+esc(val)+'">';
+    }else if(kind==='long'){
+      h += '<textarea id="f_'+id+'">'+esc(val)+'</textarea>';
+    }else if(kind==='date'){
+      h += '<input type="date" id="f_'+id+'" value="'+esc(val)+'">';
+    }else{
+      h += '<div class="opts" id="f_'+id+'">';
+      opts.forEach((o,oi)=>{
+        h += '<label class="opt"><input type="radio" name="'+id+'" value="'+esc(o)+'"'+(val===o?' checked':'')+'>'+esc(o)+'</label>';
+      });
+      h += '</div>';
+    }
+    h += '</div>';
+  });
+  el.innerHTML = h;
+  host.appendChild(el);
+});
+
+// capture input
+host.addEventListener('input', e=>{
+  const box = e.target.closest('.q'); if(!box) return;
+  const id = box.dataset.id;
+  data[id] = e.target.value;
+  box.classList.remove('miss');
+  save(); paint();
+});
+host.addEventListener('change', e=>{
+  if(e.target.type!=='radio') return;
+  data[e.target.name] = e.target.value;
+  e.target.closest('.q').classList.remove('miss');
+  save(); paint();
+});
+
+// drafting rule
+const ticks = document.getElementById('ticks');
+SECTIONS.forEach((s,i)=>{
+  const t=document.createElement('div'); t.className='tick'+(i%3===0?' major':''); ticks.appendChild(t);
+});
+function answered(){ return Object.keys(data).filter(k=>String(data[k]||'').trim()!=='').length; }
+function paint(){
+  [...ticks.children].forEach((t,i)=>{
+    t.className='tick'+(i%3===0?' major':'')+(i<page?' done':'')+(i===page?' here':'');
+  });
+  document.getElementById('readL').textContent = page>=0&&page<12 ? 'Section '+pad(page+1) : 'Consultation';
+  document.getElementById('readR').innerHTML = '<b>'+answered()+'</b> of '+TOTAL+' answered';
+}
+
+function show(){
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('on'));
+  document.getElementById('rule').style.display = (page>=0&&page<12)?'block':'none';
+  if(page<0) document.getElementById('intro').classList.add('on');
+  else if(page<12) document.getElementById('sec'+page).classList.add('on');
+  else document.getElementById('done').classList.add('on');
+
+  document.getElementById('back').style.visibility = (page<=-1||page>=12)?'hidden':'visible';
+  const nx = document.getElementById('next');
+  nx.style.visibility = page>=12 ? 'hidden':'visible';
+  nx.textContent = page<0 ? 'Start' : (page===11 ? 'Send consultation' : 'Next section');
+  window.scrollTo({top:0,behavior:'instant'});
+  paint();
+}
+
+function checkRequired(){
+  let ok = true, first=null;
+  SECTIONS[page][1].forEach(q=>{
+    if(!q[3]) return;
+    const v = String(data[q[0]]||'').trim();
+    const box = document.querySelector('[data-id="'+q[0]+'"]');
+    if(v===''){ ok=false; box.classList.add('miss'); if(!first) first=box; }
+  });
+  if(!ok && first) first.scrollIntoView({behavior:'smooth',block:'center'});
+  return ok;
+}
+
+document.getElementById('back').onclick = ()=>{ if(page>-1){page--;show();} };
+document.getElementById('next').onclick = ()=>{
+  if(page<0){ page=0; show(); return; }
+  if(!checkRequired()) return;
+  if(page<11){ page++; show(); return; }
+  send();
+};
+
+function send(){
+  const nx=document.getElementById('next');
+  nx.disabled=true; nx.textContent='Sending…';
+  const fd = new FormData();
+  SECTIONS.forEach(sec=>sec[1].forEach(q=>{
+    const id=q[0], v=String(data[id]||'').trim();
+    if(v==='') return;
+    if(q[1]==='date'){
+      const p=v.split('-');
+      if(p.length===3){ fd.append(id+'_year',p[0]); fd.append(id+'_month',String(+p[1])); fd.append(id+'_day',String(+p[2])); }
+    }else{
+      fd.append(id,v);
+    }
+  }));
+  fetch(POST_URL,{method:'POST',mode:'no-cors',body:fd})
+    .then(()=>{ try{localStorage.removeItem(KEY);}catch(e){} page=12; nx.disabled=false; show(); })
+    .catch(()=>{ nx.disabled=false; nx.textContent='Send consultation'; alert('The consultation could not be sent. Check your connection and try again.'); });
+}
+
+show();
+</script>
+</body>
+</html>
