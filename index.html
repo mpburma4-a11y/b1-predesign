@@ -9,14 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Spline+Sans+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#000000;
-    --slate:#000000;
-    --mist:#000000;
-    --paper:#D3D8DA;
-    --line:#9AA3A8;
-    --blueprint:#121A24;
-    --amber:#565E68;
-    --white:#FAFCFD;
+    --ink:#FFFFFF;
+    --slate:#FFFFFF;
+    --mist:#FFFFFF;
+    --paper:#2E3556;
+    --line:rgba(255,255,255,.28);
+    --blueprint:#FFFFFF;
+    --amber:#FFFFFF;
+    --white:rgba(255,255,255,.08);
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -81,16 +81,11 @@
   .meta b{display:block;color:var(--mist);font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:10px;margin-bottom:5px}
 
   /* ---------- drafting rule (signature) ---------- */
-  .rule{position:sticky;top:0;z-index:20;background:var(--paper);padding:8px 0 6px;border-bottom:1px solid var(--line)}
-  .rule .ticks{display:flex;gap:3px;align-items:center;height:6px}
-  .tick{flex:1;background:var(--line);height:3px;transition:background .3s ease}
-  .tick.major{height:3px}
-  .tick.done{background:var(--ink)}
-  .tick.here{background:var(--blueprint);height:6px}
+  .rule{position:sticky;top:0;z-index:20;background:var(--paper);padding:10px 0;border-bottom:1px solid var(--line)}
   .rule .read{
     display:flex;justify-content:space-between;gap:12px;
-    font-family:'Spline Sans Mono',monospace;font-size:10px;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-top:6px;
+    font-family:'Spline Sans Mono',monospace;font-size:11px;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
   }
   .rule .read b{color:var(--ink);font-weight:500}
 
@@ -116,6 +111,8 @@
     width:100%;background:var(--white);border:1px solid var(--line);
     border-radius:2px;padding:12px 13px;font:inherit;color:var(--ink);
   }
+  input::placeholder,textarea::placeholder{color:rgba(255,255,255,.5)}
+  input[type=date]{color-scheme:dark}
   textarea{min-height:96px;resize:vertical}
   input:focus,textarea:focus{outline:2px solid var(--blueprint);outline-offset:1px;border-color:transparent}
   .opts{display:flex;flex-wrap:wrap;gap:8px}
@@ -123,9 +120,9 @@
     display:inline-flex;align-items:center;gap:8px;background:var(--white);
     border:1px solid var(--line);border-radius:2px;padding:9px 13px;cursor:pointer;
   }
-  .opt input{accent-color:var(--blueprint);margin:0}
-  .opt:has(input:checked){border-color:var(--blueprint);box-shadow:inset 0 0 0 1px var(--blueprint)}
-  .miss{border-color:var(--amber)!important;background:#fdf8f0}
+  .opt input{accent-color:#FFFFFF;margin:0}
+  .opt:has(input:checked){border-color:#FFFFFF;box-shadow:inset 0 0 0 1px #FFFFFF}
+  .miss{border-color:#FFFFFF!important;box-shadow:inset 0 0 0 1px #FFFFFF}
 
   /* ---------- nav ---------- */
   .nav{
@@ -135,11 +132,11 @@
   .nav-in{max-width:760px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between}
   button{
     font-family:'Archivo',sans-serif;font-weight:600;font-size:14px;letter-spacing:.02em;
-    padding:12px 26px;border-radius:2px;border:1px solid var(--ink);cursor:pointer;background:var(--ink);color:var(--paper);
+    padding:12px 26px;border-radius:2px;border:1px solid #FFFFFF;cursor:pointer;background:#FFFFFF;color:#2E3556;
   }
   button.ghost{background:transparent;color:var(--ink)}
   button:disabled{opacity:.3;cursor:not-allowed}
-  button:hover:not(:disabled){background:var(--blueprint);border-color:var(--blueprint);color:var(--white)}
+  button:hover:not(:disabled){background:transparent;border-color:#FFFFFF;color:#FFFFFF}
   .saved{font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--mist);letter-spacing:.08em}
 
   .note{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--amber);margin-top:14px;min-height:18px}
@@ -180,8 +177,8 @@
 
   <!-- drafting rule -->
   <div class="rule" id="rule" style="display:none">
-    <div class="ticks" id="ticks"></div>
-    <div class="read"><span id="readL">Section 01</span><span id="readR"><b>0</b> of 71 answered</span></div>
+    <div class="read"><span id="readL">Section 01</span><span id="readR"><b>0%</b> complete</span></div>
+  </div>
   </div>
 
   <div id="form"></div>
@@ -361,18 +358,12 @@ host.addEventListener('change', e=>{
   save(); paint();
 });
 
-// drafting rule
-const ticks = document.getElementById('ticks');
-SECTIONS.forEach((s,i)=>{
-  const t=document.createElement('div'); t.className='tick'+(i%3===0?' major':''); ticks.appendChild(t);
-});
+// progress
 function answered(){ return Object.keys(data).filter(k=>String(data[k]||'').trim()!=='').length; }
 function paint(){
-  [...ticks.children].forEach((t,i)=>{
-    t.className='tick'+(i%3===0?' major':'')+(i<page?' done':'')+(i===page?' here':'');
-  });
   document.getElementById('readL').textContent = page>=0&&page<12 ? 'Section '+pad(page+1) : 'Consultation';
-  document.getElementById('readR').innerHTML = '<b>'+answered()+'</b> of '+TOTAL+' answered';
+  var pct = Math.round(answered()/TOTAL*100);
+  document.getElementById('readR').innerHTML = '<b>'+pct+'%</b> complete';
 }
 
 function show(){
