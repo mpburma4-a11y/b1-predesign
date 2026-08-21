@@ -3,20 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Pre-Design Consultation — DOMOTIC</title>
+<title>Project Foundation</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Spline+Sans+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#121A24;
-    --slate:#565E68;
-    --mist:#7A8CA0;
-    --paper:#FAFCFD;
-    --line:#D3D8DA;
-    --blueprint:#7A8CA0;
+    --ink:#000000;
+    --slate:#000000;
+    --mist:#000000;
+    --paper:#D3D8DA;
+    --line:#9AA3A8;
+    --blueprint:#121A24;
     --amber:#565E68;
-    --white:#ffffff;
+    --white:#FAFCFD;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
@@ -81,16 +81,16 @@
   .meta b{display:block;color:var(--mist);font-weight:500;letter-spacing:.12em;text-transform:uppercase;font-size:10px;margin-bottom:5px}
 
   /* ---------- drafting rule (signature) ---------- */
-  .rule{position:sticky;top:0;z-index:20;background:var(--paper);padding:14px 0 12px;border-bottom:1px solid var(--line)}
-  .rule .ticks{display:flex;gap:3px;align-items:flex-end;height:22px}
-  .tick{flex:1;background:var(--line);height:7px;transition:height .3s ease,background .3s ease}
-  .tick.major{height:12px}
+  .rule{position:sticky;top:0;z-index:20;background:var(--paper);padding:8px 0 6px;border-bottom:1px solid var(--line)}
+  .rule .ticks{display:flex;gap:3px;align-items:center;height:6px}
+  .tick{flex:1;background:var(--line);height:3px;transition:background .3s ease}
+  .tick.major{height:3px}
   .tick.done{background:var(--ink)}
-  .tick.here{background:var(--blueprint);height:22px}
+  .tick.here{background:var(--blueprint);height:6px}
   .rule .read{
     display:flex;justify-content:space-between;gap:12px;
-    font-family:'Spline Sans Mono',monospace;font-size:11px;
-    letter-spacing:.1em;text-transform:uppercase;color:var(--mist);margin-top:9px;
+    font-family:'Spline Sans Mono',monospace;font-size:10px;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--ink);margin-top:6px;
   }
   .rule .read b{color:var(--ink);font-weight:500}
 
@@ -166,8 +166,8 @@
   <!-- intro -->
   <section id="intro" class="on">
     <div class="intro">
-      <h1>Pre-Design Consultation</h1>
-      <p>Your answers set the brief: what the project must do, what it must cost, and when it must be ready.</p>
+      <h1>Project Foundation</h1>
+      <p>Establish the essential parameters that will guide the design.</p>
       <p>Answer what you know. Leave the rest blank.</p>
       <div class="meta">
         <div><b>Sections</b>12</div>
